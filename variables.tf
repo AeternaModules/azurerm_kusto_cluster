@@ -65,14 +65,14 @@ EOT
       identity_ids = optional(set(string))
       type         = string
     }))
-    language_extension = optional(object({
+    language_extension = optional(list(object({
       image = string
       name  = string
-    }))
-    language_extensions = optional(object({
+    })))
+    language_extensions = optional(list(object({
       image = string
       name  = string
-    }))
+    })))
     optimized_auto_scale = optional(object({
       maximum_instances = number
       minimum_instances = number
@@ -83,54 +83,6 @@ EOT
       subnet_id                    = string
     }))
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_clusters : (
-        v.sku.capacity == null || (v.sku.capacity >= 1 && v.sku.capacity <= 1000)
-      )
-    ])
-    error_message = "must be between 1 and 1000"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_clusters : (
-        v.allowed_fqdns == null || (length(v.allowed_fqdns) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_clusters : (
-        v.allowed_ip_ranges == null || (length(v.allowed_ip_ranges) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_clusters : (
-        v.optimized_auto_scale == null || (v.optimized_auto_scale.minimum_instances >= 0 && v.optimized_auto_scale.minimum_instances <= 1000)
-      )
-    ])
-    error_message = "must be between 0 and 1000"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_clusters : (
-        v.optimized_auto_scale == null || (v.optimized_auto_scale.maximum_instances >= 0 && v.optimized_auto_scale.maximum_instances <= 1000)
-      )
-    ])
-    error_message = "must be between 0 and 1000"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_clusters : (
-        v.zones == null || (length(v.zones) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_kusto_cluster's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -163,14 +115,32 @@ EOT
   #   source:    [from commonids.ValidateUserAssignedIdentityID] err != nil
   # path: sku.name
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: sku.capacity
+  #   condition: value >= 1 && value <= 1000
+  #   message:   must be between 1 and 1000
+  # path: allowed_fqdns[*]
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: allowed_ip_ranges[*]
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: trusted_external_tenants[*]
   #   source:    validation.Any(...) - no translation rule yet, add one
+  # path: optimized_auto_scale.minimum_instances
+  #   condition: value >= 0 && value <= 1000
+  #   message:   must be between 0 and 1000
+  # path: optimized_auto_scale.maximum_instances
+  #   condition: value >= 0 && value <= 1000
+  #   message:   must be between 0 and 1000
   # path: language_extension.name
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: language_extension.image
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: public_ip_type
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: zones[*]
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: tags
   #   condition: length(value) <= 50
   #   message:   [from tags.Validate: invalid when len(value) > 50]

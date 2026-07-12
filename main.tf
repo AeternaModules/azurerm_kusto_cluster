@@ -32,7 +32,7 @@ resource "azurerm_kusto_cluster" "kusto_clusters" {
   }
 
   dynamic "language_extension" {
-    for_each = each.value.language_extension != null ? [each.value.language_extension] : []
+    for_each = each.value.language_extension != null ? each.value.language_extension : []
     content {
       image = language_extension.value.image
       name  = language_extension.value.name
@@ -40,7 +40,7 @@ resource "azurerm_kusto_cluster" "kusto_clusters" {
   }
 
   dynamic "language_extensions" {
-    for_each = each.value.language_extensions != null ? [each.value.language_extensions] : []
+    for_each = each.value.language_extensions != null ? each.value.language_extensions : []
     content {
       image = language_extensions.value.image
       name  = language_extensions.value.name
