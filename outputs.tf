@@ -1,3 +1,7 @@
+output "kusto_clusters_id" {
+  description = "Map of id values across all kusto_clusters, keyed the same as var.kusto_clusters"
+  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.id }
+}
 output "kusto_clusters_allowed_fqdns" {
   description = "Map of allowed_fqdns values across all kusto_clusters, keyed the same as var.kusto_clusters"
   value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.allowed_fqdns }
