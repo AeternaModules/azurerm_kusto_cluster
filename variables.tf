@@ -28,16 +28,9 @@ Optional:
     - language_extension (block):
         - image (required)
         - name (required)
-    - language_extensions (block):
-        - image (required)
-        - name (required)
     - optimized_auto_scale (block):
         - maximum_instances (required)
         - minimum_instances (required)
-    - virtual_network_configuration (block):
-        - data_management_public_ip_id (required)
-        - engine_public_ip_id (required)
-        - subnet_id (required)
 EOT
 
   type = map(object({
@@ -69,18 +62,9 @@ EOT
       image = string
       name  = string
     })))
-    language_extensions = optional(list(object({
-      image = string
-      name  = string
-    })))
     optimized_auto_scale = optional(object({
       maximum_instances = number
       minimum_instances = number
-    }))
-    virtual_network_configuration = optional(object({
-      data_management_public_ip_id = string
-      engine_public_ip_id          = string
-      subnet_id                    = string
     }))
   }))
   validation {

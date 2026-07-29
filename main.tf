@@ -39,28 +39,11 @@ resource "azurerm_kusto_cluster" "kusto_clusters" {
     }
   }
 
-  dynamic "language_extensions" {
-    for_each = each.value.language_extensions != null ? each.value.language_extensions : []
-    content {
-      image = language_extensions.value.image
-      name  = language_extensions.value.name
-    }
-  }
-
   dynamic "optimized_auto_scale" {
     for_each = each.value.optimized_auto_scale != null ? [each.value.optimized_auto_scale] : []
     content {
       maximum_instances = optimized_auto_scale.value.maximum_instances
       minimum_instances = optimized_auto_scale.value.minimum_instances
-    }
-  }
-
-  dynamic "virtual_network_configuration" {
-    for_each = each.value.virtual_network_configuration != null ? [each.value.virtual_network_configuration] : []
-    content {
-      data_management_public_ip_id = virtual_network_configuration.value.data_management_public_ip_id
-      engine_public_ip_id          = virtual_network_configuration.value.engine_public_ip_id
-      subnet_id                    = virtual_network_configuration.value.subnet_id
     }
   }
 }

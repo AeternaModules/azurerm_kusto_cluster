@@ -34,10 +34,6 @@ output "kusto_clusters_language_extension" {
   description = "Map of language_extension values across all kusto_clusters, keyed the same as var.kusto_clusters"
   value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.language_extension if v.language_extension != null && length(v.language_extension) > 0 }
 }
-output "kusto_clusters_language_extensions" {
-  description = "Map of language_extensions values across all kusto_clusters, keyed the same as var.kusto_clusters"
-  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.language_extensions if v.language_extensions != null && length(v.language_extensions) > 0 }
-}
 output "kusto_clusters_location" {
   description = "Map of location values across all kusto_clusters, keyed the same as var.kusto_clusters"
   value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.location if v.location != null && length(v.location) > 0 }
@@ -89,10 +85,6 @@ output "kusto_clusters_trusted_external_tenants" {
 output "kusto_clusters_uri" {
   description = "Map of uri values across all kusto_clusters, keyed the same as var.kusto_clusters"
   value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.uri if v.uri != null && length(v.uri) > 0 }
-}
-output "kusto_clusters_virtual_network_configuration" {
-  description = "Map of virtual_network_configuration values across all kusto_clusters, keyed the same as var.kusto_clusters"
-  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.virtual_network_configuration if v.virtual_network_configuration != null && length(v.virtual_network_configuration) > 0 }
 }
 output "kusto_clusters_zones" {
   description = "Map of zones values across all kusto_clusters, keyed the same as var.kusto_clusters"
