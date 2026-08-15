@@ -28,7 +28,7 @@ output "kusto_clusters_double_encryption_enabled" {
 }
 output "kusto_clusters_identity" {
   description = "Map of identity values across all kusto_clusters, keyed the same as var.kusto_clusters"
-  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.identity if v.identity != null && length(v.identity) > 0 }
+  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => one(v.identity) if v.identity != null && length(v.identity) > 0 }
 }
 output "kusto_clusters_language_extension" {
   description = "Map of language_extension values across all kusto_clusters, keyed the same as var.kusto_clusters"
@@ -48,7 +48,7 @@ output "kusto_clusters_name" {
 }
 output "kusto_clusters_optimized_auto_scale" {
   description = "Map of optimized_auto_scale values across all kusto_clusters, keyed the same as var.kusto_clusters"
-  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.optimized_auto_scale if v.optimized_auto_scale != null && length(v.optimized_auto_scale) > 0 }
+  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => one(v.optimized_auto_scale) if v.optimized_auto_scale != null && length(v.optimized_auto_scale) > 0 }
 }
 output "kusto_clusters_outbound_network_access_restricted" {
   description = "Map of outbound_network_access_restricted values across all kusto_clusters, keyed the same as var.kusto_clusters"
@@ -72,7 +72,7 @@ output "kusto_clusters_resource_group_name" {
 }
 output "kusto_clusters_sku" {
   description = "Map of sku values across all kusto_clusters, keyed the same as var.kusto_clusters"
-  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.sku if v.sku != null && length(v.sku) > 0 }
+  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => one(v.sku) if v.sku != null && length(v.sku) > 0 }
 }
 output "kusto_clusters_streaming_ingestion_enabled" {
   description = "Map of streaming_ingestion_enabled values across all kusto_clusters, keyed the same as var.kusto_clusters"
@@ -92,7 +92,7 @@ output "kusto_clusters_uri" {
 }
 output "kusto_clusters_virtual_network_configuration" {
   description = "Map of virtual_network_configuration values across all kusto_clusters, keyed the same as var.kusto_clusters"
-  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => v.virtual_network_configuration if v.virtual_network_configuration != null && length(v.virtual_network_configuration) > 0 }
+  value       = { for k, v in azurerm_kusto_cluster.kusto_clusters : k => one(v.virtual_network_configuration) if v.virtual_network_configuration != null && length(v.virtual_network_configuration) > 0 }
 }
 output "kusto_clusters_zones" {
   description = "Map of zones values across all kusto_clusters, keyed the same as var.kusto_clusters"
